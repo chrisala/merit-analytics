@@ -2835,6 +2835,7 @@ Report_Raw <- bind_rows(
     context = type_of_agreement_s,
     actual = number_of_agreements,
     category = established_or_maintained,
+    sub_category = 'Established',
     object_class='Agreements',property='Establishing and maintaining',
     value='Total Agreements'),
   all_sub_category_extract_context_no_species(
@@ -2871,6 +2872,7 @@ Report_Raw <- bind_rows(
     context = agreement_type,
     actual = number_of_agreements,
     category = established_or_maintained,
+    sub_category = 'Established',
     object_class='Agreements',property='Establishing and maintaining',
     value='Total Agreements'),
   all_sub_category_extract_context_no_species(
@@ -3263,7 +3265,7 @@ BRSP_Data <- load_mult_wbooks(c('M05'),'Establishing moni...ress Report')
 
 Report_Raw <- bind_rows(
   Report_Raw,
-  sub_category_extract_context_no_species(
+  all_sub_category_extract_context_no_species(
     Data=RLP_Data,
     worksheet = 'RLP - Establishin...tput Rep(2)',
     service = "Establishing and maintaining monitoring regimes",
@@ -3273,10 +3275,9 @@ Report_Raw <- bind_rows(
     actual = number_of_days_maintaining_monitoring_regimes,
     context = monitoring_regimes_objective, 
     category = established_or_maintained,
-    sub_category = 'Maintained',
     object_class='Monitoring Regimes',property='Establishing and maintaining',
     value='Total Days'),
-  sub_category_extract_context_no_species(
+  all_sub_category_extract_context_no_species(
     Data=RLP_Data,
     worksheet = 'RLP - Establishin...tput Rep(2)',
     service = "Establishing and maintaining monitoring regimes",
@@ -3286,10 +3287,9 @@ Report_Raw <- bind_rows(
     actual = number_of_monitoring_regimes,
     category = established_or_maintained,
     context = monitoring_regimes_objective,
-    sub_category='Established',
     object_class='Monitoring Regimes',property='Establishing and maintaining',
     value='Total Monitoring Regimes'),
-  sub_category_extract_context_no_species(
+  all_sub_category_extract_context_no_species(
     Data=BRSF_Data,
     worksheet = 'Establishing moni...inal Report',
     service = "Establishing and maintaining monitoring regimes",
@@ -3299,10 +3299,9 @@ Report_Raw <- bind_rows(
     actual = number_of_days_maintaining_monitoring_regimes,
     context = monitoring_regimes_objective, 
     category = established_or_maintained,
-    sub_category = 'Maintained',
     object_class='Monitoring Regimes',property='Establishing and maintaining',
     value='Total Days'),
-  sub_category_extract_context_no_species(
+  all_sub_category_extract_context_no_species(
     Data=BRSF_Data,
     worksheet = 'Establishing moni...inal Report',
     service = "Establishing and maintaining monitoring regimes",
@@ -3312,10 +3311,9 @@ Report_Raw <- bind_rows(
     actual = number_of_monitoring_regimes,
     category = established_or_maintained,
     context = monitoring_regimes_objective,
-    sub_category='Established',
     object_class='Monitoring Regimes',property='Establishing and maintaining',
     value='Total Monitoring Regimes'),
-  sub_category_extract_context_no_species(
+  all_sub_category_extract_context_no_species(
     Data=BRSP_Data,
     worksheet = 'Establishing moni...ress Report',
     service = "Establishing and maintaining monitoring regimes",
@@ -3325,10 +3323,9 @@ Report_Raw <- bind_rows(
     actual = number_of_days_maintaining_monitoring_regimes,
     context = monitoring_regimes_objective, 
     category = established_or_maintained,
-    sub_category = 'Maintained',
     object_class='Monitoring Regimes',property='Establishing and maintaining',
     value='Total Days'),
-  sub_category_extract_context_no_species(
+  all_sub_category_extract_context_no_species(
     Data=BRSP_Data,
     worksheet = 'Establishing moni...ress Report',
     service = "Establishing and maintaining monitoring regimes",
@@ -3338,7 +3335,6 @@ Report_Raw <- bind_rows(
     actual = number_of_monitoring_regimes,
     category = established_or_maintained,
     context = monitoring_regimes_objective,
-    sub_category='Established',
     object_class='Monitoring Regimes',property='Establishing and maintaining',
     value='Total Monitoring Regimes'))
 
@@ -4744,7 +4740,7 @@ Report_Raw <- bind_rows(
     measured = calculated_length_remediated_km,
     invoiced = length_remediated_invoiced_km,
     context = type_of_remediation,
-    actual = length_remediated_invoiced_km,
+    actual = length_km_being_remediated,
     category = initial_followup_control,
     object_class='Riparian and Aquatic Areas',property='Remediation',
     value='Total Length (km)'),
@@ -4768,7 +4764,7 @@ Report_Raw <- bind_rows(
     measured = calculated_length_remediated_km,
     invoiced = length_remediated_invoiced_km,
     context = remediation_type,
-    actual = length_remediated_invoiced_km,
+    actual = length_remediated_km,
     category = initial_followup_control,
     object_class='Riparian and Aquatic Areas',property='Remediation',
     value='Total Length (km)'),
@@ -4792,7 +4788,7 @@ Report_Raw <- bind_rows(
     measured = calculated_length_remediated_km,
     invoiced = length_remediated_invoiced_km,
     context = remediation_type,
-    actual = length_remediated_invoiced_km,
+    actual = length_remediated_km,
     category = initial_followup_control,
     object_class='Riparian and Aquatic Areas',property='Remediation',
     value='Total Length (km)'))
@@ -5049,7 +5045,7 @@ Report_Raw <- bind_rows(
     Data=RLP_Data,
     worksheet = 'RLP - Weed treatm...tput Report',
     service = "Removing weeds",
-    target_measure = "Area (ha) treated for weeds - initial",
+    target_measure = "Area (ha) treated for weeds - follow-up",
     measured=area_ha_treated_for_weed_removal,
     actual=area_ha_treated_for_weed_removal,
     invoiced=invoiced_area_ha_length_km_treated_for_weed_removal,
@@ -5076,7 +5072,7 @@ Report_Raw <- bind_rows(
     Data=BRSF_Data,
     worksheet = 'Weed treatment St...inal Report',
     service = "Removing weeds",
-    target_measure = "Area (ha) treated for weeds - initial",
+    target_measure = "Area (ha) treated for weeds - follow-up",
     measured=site_calculated_area_ha,
     actual=actual_area_ha_length_km_treated_for_weed_removal,
     invoiced=area_invoiced_ha,
@@ -5102,7 +5098,7 @@ Report_Raw <- bind_rows(
     Data=BRSP_Data,
     worksheet = 'Weed treatment St...ress Report',
     service = "Removing weeds",
-    target_measure = "Area (ha) treated for weeds - initial",
+    target_measure = "Area (ha) treated for weeds - follow-up",
     measured=site_calculated_area_ha,
     actual=actual_area_ha_length_km_treated_for_weed_removal,
     invoiced=area_invoiced_ha,
@@ -6048,7 +6044,7 @@ Report_Raw <- bind_rows(
     object_class='Weeds',property='Surveys',
     value='Total Area (Ha)'),
   all_sub_category_extract_context_species(
-    Data=BRSF_Data,
+    Data=RLP_Data,
     worksheet = 'RLP - Weed distri...tput Report',
     service = "Weed distribution survey",
     target_measure = "Number of weed distribution surveys conducted",
@@ -6423,7 +6419,7 @@ Report_Raw <-
                      all_of(adjustment_cols)) %>%
               rename(service=project_service,
                      target_measure=output_measure) %>%
-              mutate(measured=NA,actual=reported_measure_requiring_adjustment,
+              mutate(measured=NA,actual=adjustment,
                      invoiced=adjustment,report_species=NA,category=NA,
                      context=NA,sub_category=NA) %>%
               select(-c('reported_measure_requiring_adjustment',
@@ -6432,7 +6428,7 @@ Report_Raw <-
               mutate(meta_source_sheetname='RLP Output Report Adjustment', 
                      meta_transform_func = 'Adjustment Reports',
                      meta_col_measured = NA,
-                     meta_col_actual = 'reported_measure_requiring_adjustment',
+                     meta_col_actual = 'adjustment',
                      meta_col_invoiced = 'adjustment',
                      meta_col_category=NA,
                      meta_col_context=NA,
