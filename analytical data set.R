@@ -675,7 +675,7 @@ library(RSQLite)
 # |82|extract_date||MetaData||||Data set|Describes the point in ti18me when the data was extracted from MERIT|2022-06-20|
 #   
 
-extract_date <- '2022-08-28'
+extract_date <- '2022-09-04'
 version <- '1.0.3'
 measured_missing <- -1
 actual_missing <- -1
@@ -2825,7 +2825,7 @@ Report_Raw <- bind_rows(
     category = established_or_maintained,
     object_class='Agreements',property='Establishing and maintaining',
     value='Total Area (Ha)'),
-  all_sub_category_extract_context_no_species(
+  sub_category_extract_context_no_species(
     Data=RLP_Data,
     worksheet = 'RLP - Establishin...tput Rep(1)',
     service = "Establishing and maintaining agreements",
@@ -2862,7 +2862,7 @@ Report_Raw <- bind_rows(
     category = established_or_maintained,
     object_class='Agreements',property='Establishing and maintaining',
     value='Total Area (Ha)'),
-  all_sub_category_extract_context_no_species(
+  sub_category_extract_context_no_species(
     Data=BRSF_Data,
     worksheet = 'Establishing Agre...inal Report',
     service = "Establishing and maintaining agreements",
@@ -2899,7 +2899,7 @@ Report_Raw <- bind_rows(
     category = established_or_maintained,
     object_class='Agreements',property='Establishing and maintaining',
     value='Total Area (Ha)'),
-  all_sub_category_extract_context_no_species(
+  sub_category_extract_context_no_species(
     Data=BRSP_Data,
     worksheet = 'Establishing Agre...ress Report',
     service = "Establishing and maintaining agreements",
@@ -2909,6 +2909,7 @@ Report_Raw <- bind_rows(
     context = agreement_type,
     actual = number_of_agreements,
     category = established_or_maintained,
+    sub_category = 'Established',
     object_class='Agreements',property='Establishing and maintaining',
     value='Total Agreements'),
   all_sub_category_extract_context_no_species(
@@ -6558,11 +6559,13 @@ meri_outcomes_indicators <- read.xlsx(paste('M01 ',extract_date,'.xlsx',sep=''),
   group_by(merit_project_id) %>%
   summarize(across(all_of(meri_outcomes_indicator_ref),last))
 
-
+optional_date <- function(date) {
+  as.Date(date, optional=TRUE, origin='1899-12-30')
+}
 meri_priorities <- read.xlsx(paste('M01 ',extract_date,'.xlsx',sep=''),
                              sheet='MERI_Priorities') %>% 
   clean_names() %>%
-  #mutate(across(ends_with('_date'),as.Date,origin='1899-12-30')) %>%
+  mutate(across(ends_with('_date'),optional_date)) %>%
   select(grant_id,document_name,relevant_section,
          explanation_of_strategic_alignment) %>%
   rename(merit_project_id=grant_id) %>%
