@@ -675,7 +675,7 @@ library(RSQLite)
 # |82|extract_date||MetaData||||Data set|Describes the point in ti18me when the data was extracted from MERIT|2022-06-20|
 #   
 
-extract_date <- '2022-09-04'
+extract_date <- '2022-12-04'
 version <- '1.0.3'
 measured_missing <- -1
 actual_missing <- -1
@@ -730,12 +730,12 @@ species_etc_cols_out <- c(
   'remnant_vegetation','aquatic_and_coastal_systems_including_wetlands',
   'report_species','epbc','tec','ramsar','version')
 
-numeric_cols <- c(
-  'measured','invoiced','actual','report_from_date',
-  'report_to_date','start_date','end_date',
-  'contracted_start_date','contracted_end_date',
-  'last_modified_2')
+numeric_cols <- c('measured','invoiced','actual')
 
+project_date_cols <- c('start_date','end_date',
+               'contracted_start_date','contracted_end_date')
+report_date_cols <- c('report_from_date',
+               'report_to_date')
 character_cols <- c(
   'management_unit','external_id','site_id','organisation','report_species',
   'category','context')
@@ -759,6 +759,10 @@ adjustment_cols_full <-
 adjustment_cols <- 
   c('project_service','output_measure','reported_measure_requiring_adjustment',
     'adjustment')
+
+optional_date <- function(date) {
+  as.Date(as.numeric(date), optional=TRUE, origin='1899-12-30')
+}
 
 load("management_units.Rdata") 
 management_units <- management_units %>% rename(management_unit_short_id=mu_id,
@@ -882,6 +886,7 @@ Projects <- read.xlsx(paste('M01 ',extract_date,'.xlsx',sep=''),
                       sheet='Projects',
                       startRow = 1) %>%
   clean_names() %>%
+  mutate(across(all_of(project_date_cols),optional_date)) %>%
   rename(merit_project_id=grant_id)
 
 ############################################
@@ -6453,6 +6458,8 @@ projects_reports <-
          MERIT_Reports_link = 
            str_c("https://fieldcapture.ala.org.au/project/index/",
                  project_id)) %>%
+  mutate(across(all_of(project_date_cols),optional_date)) %>%
+  mutate(across(all_of(report_date_cols),optional_date)) %>%
   rename(project_status=status, 
          report_last_modified=last_modified_2,
          report_stage = stage,
@@ -6559,13 +6566,9 @@ meri_outcomes_indicators <- read.xlsx(paste('M01 ',extract_date,'.xlsx',sep=''),
   group_by(merit_project_id) %>%
   summarize(across(all_of(meri_outcomes_indicator_ref),last))
 
-optional_date <- function(date) {
-  as.Date(date, optional=TRUE, origin='1899-12-30')
-}
 meri_priorities <- read.xlsx(paste('M01 ',extract_date,'.xlsx',sep=''),
-                             sheet='MERI_Priorities') %>% 
+                             sheet='MERI_Priorities')  %>%
   clean_names() %>%
-  mutate(across(ends_with('_date'),optional_date)) %>%
   select(grant_id,document_name,relevant_section,
          explanation_of_strategic_alignment) %>%
   rename(merit_project_id=grant_id) %>%
