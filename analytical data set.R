@@ -6680,7 +6680,7 @@ projects_species <- Projects %>%
   select(any_of(project_cols_out),service_provider,report_project_services,
          any_of(species_etc_cols_out),any_of(extract_date_cols))
 
-target_cols <- c("merit_project_id","management_unit","program","sub_program",
+target_cols <- c("merit_project_id","management_unit","program","sub_program","service","target_measure",
 "total_to_be_delivered","x2018_2019","x2019_2020","x2020_2021","x2021_2022",
 "x2022_2023")
 
